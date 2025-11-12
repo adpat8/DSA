@@ -21,7 +21,7 @@ public class InfixToPostfix {
 		else if((ch=='*')||(ch=='/'))
 		{
 			return 2;
-			
+
 		}
 		else if((ch=='+')||(ch=='-'))
 		{
@@ -151,6 +151,7 @@ public class EvaluatePrefix {
         		if((ch=='+')||(ch=='-')||(ch=='*')||(ch=='/')||(ch=='^'))
         		{
         			switch (ch) 
+					
         			{
                     case '+':
                     	stack.push(stack.pop()+stack.pop());
