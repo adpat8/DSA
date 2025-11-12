@@ -1,0 +1,194 @@
+//PRN: 250844520008
+//Name: Advait Patil
+//Email: advaitjpatil@gmail.com
+
+//Q1:
+package InfixToPostfix;
+
+import java.util.*;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class InfixToPostfix {
+	
+	public static int precedence(char ch)
+	{
+		if(ch=='^')
+		{
+			return 3;
+		}
+		else if((ch=='*')||(ch=='/'))
+		{
+			return 2;
+		}
+		else if((ch=='+')||(ch=='-'))
+		{
+			return 1;
+		}
+		else if((ch=='(')||(ch==')'))
+		{
+			return 0;
+		}
+		else
+			return -1;
+	}
+	
+	public static void main(String[] args)
+	{
+		
+		Deque<Character> stack = new ArrayDeque<>();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter a valid algebraic expression: ");
+		String s = sc.nextLine();
+		int l=s.length();
+		//System.out.println(l);
+		char postfix[]=new char[l];
+		int j=0;
+		for(char ch : s.toCharArray())
+		{
+			if(((ch>='0')&&(ch<='9'))||((ch>='a')&&(ch<='z'))||((ch>='A')&&(ch<='Z'))||(ch=='+')||(ch=='-')||(ch=='*')||(ch=='/')||(ch=='^')||(ch=='(')||(ch==')'))
+			{
+				if(ch=='(')
+				{
+					stack.push(ch);
+				}
+				else if(ch==')')
+				{
+					while((stack.peek()!='('))
+					{
+						//System.out.println(j);
+						postfix[j++]=stack.pop();
+					}
+					stack.pop();
+					l-=2;
+				}
+				else if((ch=='+')||(ch=='-')||(ch=='*')||(ch=='/')||(ch=='^'))
+				{
+					if(stack.isEmpty())
+					{
+						stack.push(ch);
+					}
+					else if(precedence(ch)>precedence(stack.peek()))
+					{
+						stack.push(ch);
+					}
+					else
+					{
+						while(precedence(ch)<=precedence(stack.peek()))
+						{
+							if((ch=='(')||(ch==')'))
+							{
+								break;
+							}
+							else
+							{
+								//System.out.println(j);
+								postfix[j++]=stack.pop();
+							}
+						}
+						stack.push(ch);
+					}
+				}
+				else
+				{
+					//System.out.println(j);
+					postfix[j++]=ch;
+				}
+			}
+			else
+			{
+				System.out.println("Invalid algebraic expression.");
+				break;
+			}
+		}
+		while(!stack.isEmpty())
+		{
+			//System.out.println(j);
+			postfix[j++]=stack.pop();
+		}
+		char postfixfinal[]=new char[l];
+		for(int i=0;i<l;i++)
+		{
+			postfixfinal[i]=postfix[i];
+		}
+		System.out.println(postfixfinal);
+	}
+
+}
+
+//Q2:
+package PrefixEvaluation;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+import java.util.*;
+
+public class EvaluatePrefix {
+	
+	public static void main(String []args)
+	{
+		Deque<Integer> stack = new ArrayDeque<>();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter a valid arthmetic expression: ");
+		String s = sc.nextLine();
+		int l=s.length();
+		//System.out.println(l);
+		char postfix[]=new char[l];
+		//int j=0;
+		StringBuilder sb = new StringBuilder(s);
+        String rs = sb.reverse().toString();
+        //System.out.println(s);
+        //System.out.println(rs);
+        //int a=(int)'3';
+        //System.out.println(a-48);
+        for(char ch : rs.toCharArray())
+		{
+        	if(((ch>='0')&&(ch<='9'))||(ch=='+')||(ch=='-')||(ch=='*')||(ch=='/')||(ch=='^')||(ch=='(')||(ch==')'))
+			{
+        		if((ch=='+')||(ch=='-')||(ch=='*')||(ch=='/')||(ch=='^'))
+        		{
+        			switch (ch) 
+        			{
+                    case '+':
+                    	stack.push(stack.pop()+stack.pop());
+                    	break;
+                    case '-':
+                    	stack.push(stack.pop()-stack.pop());
+                    	break;
+                    case '*':
+                    	stack.push(stack.pop()*stack.pop());
+                    	break;
+                    case '/':
+                    	stack.push(stack.pop()/stack.pop());
+                    	break;
+                    case '^':
+                    	{
+                    		int b=((stack.pop())-'0');
+                    		int e=((stack.pop())-'0');
+                    		int k=1;
+                    		for(int i=0;i<e;i++)
+                    		{
+                    			k*=b;
+                    		}
+                    		stack.push(k);
+                    		break;
+                    	}
+                    default:
+        			}
+        		}
+        		else
+        		{
+        			stack.push((ch-'0'));
+        		}
+			}
+        	else
+			{
+				System.out.println("Invalid arithmetic expression.");
+				break;
+			}
+		}
+        System.out.println(stack.pop());
+	}
+}
