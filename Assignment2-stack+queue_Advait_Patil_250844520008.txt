@@ -1,0 +1,401 @@
+//PRN: 250844520008
+//Name: Advait Patil
+//Email: advaitjpatil@gmail.com
+
+//Q1:
+package StackUsingQueue2;
+
+import java.util.Scanner;
+
+public class QueueStack2 {
+	
+	int queue[];
+    int front, rear, MaxSize, count;
+    void create_Queue(int size)
+    {
+        front=0;
+        rear=-1;
+        MaxSize=size;
+        queue=new int[MaxSize];
+    }
+    //enqueue:accepts an element in queue
+    //rear+1
+    void enqueue(int e)
+    {
+        rear=(rear+1)%MaxSize;
+        queue[rear]=e;
+        count++;
+        //queue[(rear+1)%MaxSize]=e;
+    }
+    boolean is_full()
+    {
+        if(count==MaxSize)
+            return true;
+        else
+            return false;
+
+        //return(count==MaxSize);
+
+    }
+    int dequeue()
+    {
+        int temp=queue[front];
+        front=(front+1)%MaxSize;
+        count--;
+        return(temp);
+        //return(queue[(front+1)%MaxSize]);
+    }
+    boolean is_empty()
+    {
+        if(count==0)
+            return true;
+        else
+            return false;
+
+        //return(count==0);
+
+    }
+    void print_queue()//in FIFO-->front to rear
+    {
+    	int i=front,c=0;
+        while(c<count)
+        {
+        	System.out.print(queue[i]+"-");
+        	i=(i+1)%MaxSize;
+        	c++;
+        }
+    }
+    
+    void create_Stack(int size)
+    {
+    	create_Queue(size);
+    }
+    
+    void push(int e)
+    {
+    	enqueue(e);
+    }
+    boolean is_Stack_full()
+    {
+    	return is_full();
+    }
+    int pop()
+    {
+        for(int i=0;i<count-1;i++)
+        {
+        	enqueue(dequeue());
+        }
+        return dequeue();
+    }
+    boolean is_Stack_empty()
+    {
+    	return is_empty();
+    }
+    void print_stack()//in LIFO
+    {
+        for(int i=0;i<count;i++)
+        {
+        	for(int j=0;j<count-1-i;j++)
+        	{
+        		enqueue(dequeue());
+        	}
+        	int temp=dequeue();
+        	System.out.print(temp+"- ");
+        	enqueue(temp);
+        	for(int k=0;k<i;k++)
+        		enqueue(dequeue());
+        }
+    }
+
+    int peek()//only return element on top
+    {
+        return(queue[rear]);
+    }
+
+    public static void main(String[] args)
+    {
+    	QueueStack2 obj=new QueueStack2();
+        int choice;
+        Scanner in=new Scanner(System.in);
+        System.out.println("Enter size of stack:");
+        int size=in.nextInt();
+        obj.create_Stack(size);
+        do
+        {
+            System.out.println("\nStack Menu");
+            System.out.println("==========");
+            System.out.println("1.Push");
+            System.out.println("2.Pop");
+            System.out.println("3.Peek");
+            System.out.println("4.Print");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                        if(!obj.is_full())//if not full then
+                        {
+                            System.out.println("Enter element to push:");
+                            int e=in.nextInt();
+                            obj.push(e);
+                            System.out.println("Element pushed");
+                        }
+                        else
+                        {
+                            System.out.println("Stack Full");
+                        }
+                        break;
+                case 2:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element poped:"+obj.pop());
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 3:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element @ Peek is:"+obj.peek());
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 4:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Stack has:");
+                        obj.print_stack();
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 0:
+                        System.out.println("Thanks for using the code: Advait Patil");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+    }
+}
+
+//Q2:
+package QueueUsingStack;
+
+import java.util.Scanner;
+
+public class StackQueue {
+	
+	int stack[], aux_stack[];
+    int tos, aux_tos,MaxSize;
+    void create_Stack(int size)
+    {
+        tos=-1;aux_tos=-1;
+        MaxSize=size;
+        stack=new int[MaxSize];
+        aux_stack=new int[MaxSize];
+    }
+    //push:accepts an element on stack
+    //tos+1
+    void push(int e)
+    {
+        tos++;
+        stack[tos]=e;
+        //stack[++tos]=e;
+    }
+    void aux_push(int e)
+    {
+        aux_tos++;
+        aux_stack[aux_tos]=e;
+        //stack[++tos]=e;
+    }
+    boolean is_full()
+    {
+        if(tos==MaxSize-1)
+            return true;
+        else
+            return false;
+
+        //return(tos==MaxSize-1);
+
+    }
+    int pop()
+    {
+        int temp=stack[tos];
+        tos--;
+        return(temp);
+        //return(stack[tos--]);
+    }
+    int aux_pop()
+    {
+        int temp=aux_stack[aux_tos];
+        aux_tos--;
+        return(temp);
+        //return(stack[tos--]);
+    }
+    boolean is_empty()
+    {
+        if(tos==-1)
+            return true;
+        else
+            return false;
+
+        //return(tos==-1);
+
+    }
+    void print_stack()//in LIFO
+    {
+        for(int i=tos;i>=0;i--)
+            System.out.println(stack[i]);
+    }
+
+    int peek()//only return element on top
+    {
+        return(stack[tos]);
+    }
+    
+    void create_Queue(int size)
+    {
+    	create_Stack(size);
+    }
+    //enqueue:accepts an element in queue
+    //rear+1
+    void enqueue(int e)
+    {
+    	push(e);
+    }
+    boolean is_Queue_full()
+    {
+    	return is_full();
+    }
+    int dequeue()
+    {
+    	int n=tos;
+    	for(int i=0;i<n;i++)
+    	{
+    		aux_push(pop());
+    	}
+    	int temp=pop();
+    	for(int i=0;i<n;i++)
+    	{
+    		push(aux_pop());
+    	}
+    	return temp;
+    }
+    boolean is_Queue_empty()
+    {
+    	return is_empty();
+    }
+    void print_queue()//in FIFO-->front to rear
+    {
+    	int n=tos;
+    	for(int i=0;i<n+1;i++)
+    	{
+    		aux_push(pop());
+    	}
+    	System.out.println(aux_stack);
+    	for(int i=0;i<n+1;i++)
+    	{
+    		int temp=aux_pop();
+    		System.out.print(temp+"- ");
+    		push(temp);
+    	}
+        //for(int i=front;i<=rear;i++)
+        //    System.out.print(queue[i]+"-");
+    }
+    /*
+    int peek()//only return element on top
+    {
+        return(stack[tos]);
+    }
+	*/
+    public static void main(String[] args)
+    {
+        StackQueue obj=new StackQueue();
+        int choice;
+        Scanner in=new Scanner(System.in);
+        System.out.println("Enter size of queue:");
+        int size=in.nextInt();
+        obj.create_Queue(size);
+        do
+        {
+            System.out.println("\nQueue Menu");
+            System.out.println("==========");
+            System.out.println("1.Enqueue");
+            System.out.println("2.Dequeue");
+            //System.out.println("3.Peek");
+            System.out.println("3.Print");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                        if(!obj.is_full())//if not full then
+                        {
+                            System.out.println("Enter element to enqueue:");
+                            int e=in.nextInt();
+                            obj.enqueue(e);
+                            System.out.println("Element enqueued");
+                        }
+                        else
+                        {
+                            System.out.println("Queue Full");
+                        }
+                        break;
+                case 2:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element deueued:"+obj.dequeue());
+                    }
+                    else
+                    {
+                        System.out.println("Queue Empty");
+                    }
+                    break;
+                    /*
+                case 3:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element @ Peek is:"+obj.peek());
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                    */
+                case 3:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Queue has:");
+                        obj.print_queue();
+                    }
+                    else
+                    {
+                        System.out.println("Queue Empty");
+                    }
+                    break;
+                case 0:
+                        System.out.println("Thanks for using the code: Advait");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+    }
+}
