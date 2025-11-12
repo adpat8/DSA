@@ -21,6 +21,7 @@ public class InfixToPostfix {
 		else if((ch=='*')||(ch=='/'))
 		{
 			return 2;
+			
 		}
 		else if((ch=='+')||(ch=='-'))
 		{
