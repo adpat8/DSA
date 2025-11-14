@@ -1,0 +1,185 @@
+//PRN: 250844520008
+//Name: Advait Patil
+//Email: advaitjpatil@gmail.com
+
+package circularDoublyLinkedList;
+
+import java.util.Scanner;
+
+class Dnode
+{
+    int data;
+    Dnode left,right;
+    Dnode(int data)
+    {
+        this.data=data;
+        this.left=this.right=null;
+    }
+}
+
+public class CircularDoublyLinkedList
+{
+    Dnode root, last;
+    
+    void insert_left(int data)
+    {
+        Dnode n = new Dnode(data);
+        if(root==null)
+        {
+			root=last=n;
+			last.right=root;
+			root.left=last;
+        }
+        else
+        {
+            n.right = root;
+            root.left = n;
+            root = n;
+            last.right=root;
+            root.left=last;
+        }
+    }
+    
+    void insert_right(int data)
+    {
+        Dnode n = new Dnode(data);
+        if (root == null)
+        {
+            root = last = n;
+			last.right=root;
+			root.left=last;
+        }
+        else
+        {
+            last.right = n;
+            Dnode t=last;
+            last=n;
+			last.right=root;
+			root.left=last;
+            last.left = t;//4
+        }
+    }
+    
+    void delete_left()
+    {
+        if (root == null)
+            System.out.println("List is empty");
+        else if(root==last)
+        {
+        	System.out.println("Deleted: "+root.data);
+        	root = last = null;
+        }
+        else 
+        {
+            Dnode t = root;
+            root = root.right;
+            root.left = last;
+            last.right=root;
+            System.out.println("Deleted:" + t.data);
+        }
+    }
+    
+    void delete_right()
+    {
+        if (root == null)
+            System.out.println("List is empty");
+        else if(root==last)
+        {
+        	System.out.println("Deleted: "+root.data);
+        	root = last = null;
+        }
+        else 
+        {
+        	Dnode t=last;
+            last=last.left;
+            last.right=root;
+            root.left=last;
+            System.out.println("Deleted:" + t.data);
+        }
+    }
+    
+    void print_list()
+    {
+        if (root == null)
+            System.out.println("List is empty");
+        else
+        {
+            Dnode t = root;
+            do
+            {
+                System.out.print("<-| " + t.data + " |->");
+                t = t.right;
+            }while (t != root);
+        }
+    }
+
+
+    void print_list_rev()
+    {
+        if (root == null)
+            System.out.println("List is empty");
+        else
+        {
+            Dnode t = last;
+            do
+            {
+                System.out.print("<-| " + t.data + " |->");
+                t=t.left;
+            }while(t!=last);
+        }
+    }
+
+	public static void main(String[] args)
+	{
+		CircularDoublyLinkedList obj=new CircularDoublyLinkedList();
+        int choice, data, key;
+        Scanner in=new Scanner(System.in);
+        do
+        {
+            System.out.println("\nCircular Doubly Linked List Menu");
+            System.out.println("==========");
+            System.out.println("1.Insert left");
+            System.out.println("2.Insert right");
+            System.out.println("3.Delete left");
+            System.out.println("4.Delete right");
+            System.out.println("5.Print");
+            System.out.println("6.Print reverse");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                	System.out.println("Enter data to be inserted left");
+                	data=in.nextInt();
+                	obj.insert_left(data);
+                    break;
+                case 2:
+                	System.out.println("Enter data to be inserted right");
+                	data=in.nextInt();
+                	obj.insert_right(data);
+                    break;
+                case 3:
+                	obj.delete_left();
+                    break;
+                case 4:
+                	obj.delete_right();
+                    break;
+                case 5:
+                	obj.print_list();
+                    break;
+                case 6:
+                	obj.print_list_rev();
+                    break;
+                case 0:
+                    System.out.println("Thanks for using the code: Advait Patil");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+	}
+}
