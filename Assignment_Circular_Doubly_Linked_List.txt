@@ -26,9 +26,9 @@ public class CircularDoublyLinkedList
         Dnode n = new Dnode(data);
         if(root==null)
         {
-			root=last=n;
-			last.right=root;
-			root.left=last;
+	    root=last=n;
+	    last.right=root;
+	    root.left=last;
         }
         else
         {
@@ -46,17 +46,17 @@ public class CircularDoublyLinkedList
         if (root == null)
         {
             root = last = n;
-			last.right=root;
-			root.left=last;
+	    last.right=root;
+	    root.left=last;
         }
         else
         {
             last.right = n;
             Dnode t=last;
             last=n;
-			last.right=root;
-			root.left=last;
-            last.left = t;//4
+	    last.right=root;
+	    root.left=last;
+            last.left = t;
         }
     }
     
@@ -66,8 +66,8 @@ public class CircularDoublyLinkedList
             System.out.println("List is empty");
         else if(root==last)
         {
-        	System.out.println("Deleted: "+root.data);
-        	root = last = null;
+            System.out.println("Deleted: "+root.data);
+            root = last = null;
         }
         else 
         {
@@ -85,12 +85,12 @@ public class CircularDoublyLinkedList
             System.out.println("List is empty");
         else if(root==last)
         {
-        	System.out.println("Deleted: "+root.data);
-        	root = last = null;
+            System.out.println("Deleted: "+root.data);
+            root = last = null;
         }
         else 
         {
-        	Dnode t=last;
+            Dnode t=last;
             last=last.left;
             last.right=root;
             root.left=last;
@@ -129,9 +129,9 @@ public class CircularDoublyLinkedList
         }
     }
 
-	public static void main(String[] args)
-	{
-		CircularDoublyLinkedList obj=new CircularDoublyLinkedList();
+    public static void main(String[] args)
+    {
+	CircularDoublyLinkedList obj=new CircularDoublyLinkedList();
         int choice, data, key;
         Scanner in=new Scanner(System.in);
         do
@@ -181,5 +181,5 @@ public class CircularDoublyLinkedList
 
             }
         }while(choice!=0);
-	}
+    }
 }
