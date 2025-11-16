@@ -1,0 +1,593 @@
+//PRN: 250844520008
+//Name: Advait Patil
+//Email: advaitjpatil@gmail.com
+
+//Q1:
+package LongSubstringQueue;
+
+import java.util.Scanner;
+
+public class LongestSubstring
+{
+	
+	
+	public static void main(String[] args)
+	{
+		
+		String str;
+		System.out.println("Enter a string: ");
+		Scanner in = new Scanner(System.in);
+		str=in.nextLine();
+		int l=str.length();
+		char q[]= new char[l];
+		int front=0, rear=-1;
+		int count=1, maxcount=1;
+		q[++rear]=str.charAt(0);
+		for(int i=1;i<l;i++)
+		{
+			for(int j=front;j<rear+1;j++)
+			{
+				if(str.charAt(i)==q[j])
+				{
+					for(int k=front;k<j+1;k++)
+					{
+						front++;
+						count--;
+					}
+					break;
+				}
+			}
+			q[++rear]=str.charAt(i);
+			count++;
+			if(maxcount<count)
+				maxcount=count;
+		}
+		System.out.println(maxcount);
+	}
+}
+
+//Q2:
+
+package deleteMidStack;
+
+import java.util.Scanner;
+
+class StackImplementation
+{
+    int stack[];
+    int tos,MaxSize;
+    void create_Stack(int size)
+    {
+        tos=-1;
+        MaxSize=size;
+        stack=new int[MaxSize];
+    }
+    //push:accepts an element on stack
+    //tos+1
+    void push(int e)
+    {
+        tos++;
+        stack[tos]=e;
+        //stack[++tos]=e;
+    }
+    boolean is_full()
+    {
+        if(tos==MaxSize-1)
+            return true;
+        else
+            return false;
+
+        //return(tos==MaxSize-1);
+
+    }
+    int pop()
+    {
+        int temp=stack[tos];
+        tos--;
+        return(temp);
+        //return(stack[tos--]);
+    }
+    boolean is_empty()
+    {
+        if(tos==-1)
+            return true;
+        else
+            return false;
+
+        //return(tos==-1);
+
+    }
+    void print_stack()//in LIFO
+    {
+        for(int i=tos;i>=0;i--)
+            System.out.println(stack[i]);
+    }
+
+    int peek()//only return element on top
+    {
+        return(stack[tos]);
+    }
+    
+    int pop_middle()
+    {
+    	int m, temp;
+    	if(tos%2==0)
+    	{
+    		m=tos/2;
+    		temp=stack[m];
+    		for(int i=0;i<m;i++)
+        	{
+        		stack[m+i]=stack[m+i+1];
+        	}
+    		this.pop();
+    		System.out.print("new stack: \n");
+        	this.print_stack();
+    		System.out.println();
+    		return temp;
+    	}
+    	else
+    	{
+    		m=((tos+1)/2);
+    		temp=stack[m];
+    		for(int i=0;i<m-1;i++)
+        	{
+        		stack[m+i]=stack[m+i+1];
+        	}
+    		this.pop();
+    		System.out.print("new stack: \n");
+        	this.print_stack();
+    		System.out.println();
+    		return temp;
+    	}
+    }
+}
+
+public class DeleteMiddleStack
+{
+	
+	public static void main(String[] args)
+    {
+        StackImplementation obj=new StackImplementation();
+        int choice;
+        Scanner in=new Scanner(System.in);
+        System.out.println("Enter size of stack:");
+        int size=in.nextInt();
+        obj.create_Stack(size);
+        do
+        {
+            System.out.println("\nStack Menu");
+            System.out.println("==========");
+            System.out.println("1.Push");
+            System.out.println("2.Pop");
+            System.out.println("3.Peek");
+            System.out.println("4.Print");
+            System.out.println("5.Pop middle");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                        if(!obj.is_full())//if not full then
+                        {
+                            System.out.println("Enter element to push:");
+                            int e=in.nextInt();
+                            obj.push(e);
+                            System.out.println("Element pushed");
+                        }
+                        else
+                        {
+                            System.out.println("Stack Full");
+                        }
+                        break;
+                case 2:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element poped:"+obj.pop());
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 3:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Element @ Peek is:"+obj.peek());
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 4:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                        System.out.println("Stack has:");
+                        obj.print_stack();
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 5:
+                    if(!obj.is_empty())//if not empty then
+                    {
+                    	System.out.println(obj.pop_middle()+" was element popped");
+                    }
+                    else
+                    {
+                        System.out.println("Stack Empty");
+                    }
+                    break;
+                case 0:
+                        System.out.println("Thanks for using the code: Advait");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+    }
+
+}
+
+//Q3:
+
+package bracketValidation;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.*;
+
+public class BracketValidation
+{
+	public static void main(String[] args)
+	{
+		Deque<Character> stack=new ArrayDeque<>();
+		Deque<Character> aux_stack=new ArrayDeque<>();
+		System.out.println("Enter a string of brackets to be validated: ");
+		Scanner in = new Scanner(System.in);
+		String s=in.nextLine();
+		//char rct=' ', prct=' ';
+		if(s.charAt(0)!='('&&s.charAt(0)!='['&&s.charAt(0)!='{')
+		{
+			System.out.println("Invalid. Expression should start with an opening bracket. Only '(','[', or '{' are valid to start expression.");
+			return;
+		}
+		for(char ch : s.toCharArray())
+		{
+			if(ch=='(')
+			{
+				stack.push(ch);
+				aux_stack.push(')');
+			}
+			else if(ch=='[')
+			{
+				stack.push(ch);
+				aux_stack.push(']');
+			}
+			else if(ch=='{')
+			{
+				stack.push(ch);
+				aux_stack.push('}');
+			}
+			else if(ch==')')
+			{
+				if(aux_stack.pop()==')')
+				{
+					stack.pop();
+				}
+				else
+				{
+					System.out.println("false");
+					return;
+				}
+			}
+			else if(ch==']')
+			{
+				if(aux_stack.pop()==']')
+				{
+					stack.pop();
+				}
+				else
+				{
+					System.out.println("false");
+					return;
+				}
+			}
+			else if(ch=='}')
+			{
+				if(aux_stack.pop()=='}')
+				{
+					stack.pop();
+				}
+				else
+				{
+					System.out.println("false");
+					return;
+				}
+			}
+		}
+		System.out.println("true");
+	}
+}
+
+//Q4:
+
+package listMerge;
+
+import java.util.*;
+
+public class MergeList
+{
+	public static void main(String[] args)
+	{
+		List<Integer> list1=new ArrayList<>();
+		List<Integer> list2=new ArrayList<>();
+		List<Integer> resultlist=new ArrayList<>();
+		Scanner in= new Scanner(System.in);
+		int t;
+		System.out.println("Enter elements of 1st list(in ascending order), and enter 999999999 (9 9's) to stop: ");
+		t=in.nextInt();
+		while(t!=999999999)
+		{
+			list1.add(t);
+			t=in.nextInt();
+		}
+		System.out.println(list1);
+		System.out.println("Enter elements of 2nd list(in ascending order), and enter 999999999 (9 9's) to stop: ");
+		t=in.nextInt();
+		while(t!=999999999)
+		{
+			list2.add(t);
+			t=in.nextInt();
+		}
+		System.out.println(list2);
+		while((list1.size()>0)||(list2.size()>0))
+		{
+			if(list1.size()==0)
+			{
+				resultlist.addAll(list2);
+				list2.clear();
+			}
+			else if(list2.size()==0)
+			{
+				resultlist.addAll(list2);
+				list1.clear();
+			}
+			else
+			{
+				if(list1.get(0)>=list2.get(0))
+				{
+					int temp=list2.get(0);
+					list2.remove(0);
+					resultlist.add(temp);
+				}
+				else
+				{
+					int temp=list1.get(0);
+					list1.remove(0);
+					resultlist.add(temp);
+				}
+			}
+		}
+		System.out.println("Merged list: "+resultlist);
+	}
+
+}
+
+//Q5:
+
+package listMerge;
+
+import java.util.*;
+
+public class MergeList
+{
+	static List<Integer> mergeList(List<Integer> list1,List<Integer> list2)
+	{
+		List<Integer> resultlist=new ArrayList<>();
+		
+		while((list1.size()>0)||(list2.size()>0))
+		{
+			if(list1.size()==0)
+			{
+				resultlist.addAll(list2);
+				list2.clear();
+			}
+			else if(list2.size()==0)
+			{
+				resultlist.addAll(list2);
+				list1.clear();
+			}
+			else
+			{
+				if(list1.get(0)>=list2.get(0))
+				{
+					int temp=list2.get(0);
+					list2.remove(0);
+					resultlist.add(temp);
+				}
+				else
+				{
+					int temp=list1.get(0);
+					list1.remove(0);
+					resultlist.add(temp);
+				}
+			}
+		}
+		return resultlist;
+	}
+	static List<Integer> mergeMultiple(List<List<Integer>> List)
+	{
+		List<Integer> resultlist=new ArrayList<>();
+		resultlist=List.get(0);
+		for(int i=0;i<List.size()-1;i++)
+		{
+			resultlist=mergeList(resultlist,List.get(i+1));
+		}
+		return resultlist;
+	}
+	public static void main(String[] args)
+	{
+		int choice;
+		List<Integer> resultlist=new ArrayList<>();
+		List<List<Integer>> listList=new ArrayList<>();
+		Scanner in= new Scanner(System.in);
+		do
+        {
+            System.out.println("MergeList Menu");
+            System.out.println("==========");
+            System.out.println("1.run");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                	System.out.println("Enter the number of lists you want to merge: ");
+            		int n=in.nextInt();
+            		if(n==0)
+            		{
+            			System.out.println("[]");
+            		}
+            		else
+            		{
+            			for(int i=0;i<n;i++)
+            			{
+            				List<Integer> list=new ArrayList<>();
+            				int t;
+            				System.out.println("Enter elements of 1st list(in ascending order), and enter 999999999 (9 9's) to stop: ");
+            				t=in.nextInt();
+            				while(t!=999999999)
+            				{
+            					list.add(t);
+            					t=in.nextInt();
+            				}
+            				System.out.println(list);
+            				listList.add(list);
+            			}
+            			resultlist=mergeMultiple(listList);
+            		}
+
+            		System.out.println("Merged list: "+resultlist);
+                    break;
+                case 0:
+                    System.out.println("Thanks for using the code: Advait");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+	}	
+}
+
+//Q6:
+
+package celebrityProblem;
+
+import java.util.*;
+
+public class CelebrityProblem
+{
+	static void isCelebrity()
+	{
+		System.out.println("Enter number of atendees(at the party): ");
+		Scanner in=new Scanner(System.in);
+		int n=in.nextInt();
+		int recogmatrix[][]=new int[n][n];
+		System.out.println("Enter the recognition matrix: ");
+		for(int i=0;i<n;i++)
+		{
+			for(int j=0;j<n;j++)
+			{
+				System.out.println("["+i+"]["+j+"] 1 -> "+i+" knows "+j+", 0 -> doesn't know");
+				recogmatrix[i][j]=in.nextInt();
+			}
+		}
+		int celebCounterArr[]=new int[n];
+		for(int i=0;i<n;i++)
+		{
+			int c=0;
+			boolean isCeleb=false;
+			for(int j=0;j<n;j++)
+			{
+				if(i!=j && recogmatrix[i][j]==0 && c==0)
+				{
+					isCeleb=true;
+				}
+				else if(i!=j && recogmatrix[i][j]==1)
+				{
+					isCeleb=false;
+					c++;
+				}
+			}
+			celebCounterArr[i]=isCeleb?1:0;
+		}
+		int celebCount=0;
+		for(int i=0;i<n;i++)
+		{
+			if(celebCounterArr[i]==1)
+				celebCount++;
+		}
+		if(celebCount==0)
+		{
+			System.out.println("No celebrities at the party :(");
+		}
+		else if(celebCount==1)
+		{
+			System.out.println("There is "+celebCount+" celebrity at the party, the attendee indexed: ");
+			for(int k=0;k<n;k++)
+			{
+				if(celebCounterArr[k]==1)
+					System.out.println(k);
+			}
+		}
+		else
+		{
+			System.out.println("There are "+celebCount+" celebrities at the party, attendees indexed: ");
+			for(int k=0;k<n;k++)
+			{
+				if(celebCounterArr[k]==1)
+					System.out.println(k);
+			}
+		}
+	}
+	
+	public static void main(String[] args)
+	{
+		int choice;
+		Scanner in= new Scanner(System.in);
+		do
+        {
+            System.out.println("Celebrity Problem Menu");
+            System.out.println("==========");
+            System.out.println("1.run");
+            System.out.println("0.Exit");
+            System.out.println("--------");
+            System.out.print(":");
+            choice=in.nextInt();
+            switch(choice)
+            {
+                case 1:
+                	isCelebrity();
+                    break;
+                case 0:
+                    System.out.println("Thanks for using the code: Advait");
+                    break;
+                default:
+                    System.out.println("check the option selected.");
+                    break;
+
+            }
+        }while(choice!=0);
+	}
+
+}
