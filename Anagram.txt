@@ -1,0 +1,25 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        List<Character> s1=new ArrayList<>();
+        List<Character> t1=new ArrayList<>();
+        int l1=s.length();
+        int l2=t.length();
+        if(l1!=l2)
+            return false;
+        for(int k=0;k<l1;k++)
+        {
+            s1.add(s.charAt(k));
+            t1.add(t.charAt(k));
+        }
+        while(!s1.isEmpty())
+        {
+            char ch = s1.get(0);
+            int idx = t1.indexOf(ch);
+            if(idx==-1)
+                return false;
+            s1.remove(0);
+            t1.remove(idx);
+        }
+        return s1.isEmpty();
+    }
+}
